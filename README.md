@@ -20,39 +20,24 @@ Our solution leverages the **Google AI Stack** to create a seamless "Shield" for
 ```mermaid
 
 graph TD
-    %% Node Definitions
-    User((Victim / User))
-    Orchestrator[Genkit Orchestrator]
-    
-    Agent1[Agent 1: Scam Analyst - Vertex AI Search]
-    Agent2[Agent 2: Forensic Specialist - Genkit Tooling]
-    Agent3[Agent 3: Incident Responder - Action Agent]
-    
-    DB[(SemakMule and PDRM Patterns)]
-    Tools{Link and Image Scanner}
-    NSRC[NSRC 997 Alert and Police Report]
+    User((Victim / User)) --> Orchestrator[<b>Genkit Orchestrator</b>]
 
-    %% Connections
-    User -- "Reports Incident" --> Orchestrator
-    Orchestrator --> Agent1
-    Agent1 -- "Grounded Search" --> DB
+    subgraph "Expert Agents"
+    Orchestrator --> Agent1[<b>Agent 1: Scam Analyst</b>]
+    Agent1 -.-> RAG1[(SemakMule & PDRM<br/>Scam Patterns)]
     
-    Orchestrator --> Agent2
-    Agent2 -- "Tool Call" --> Tools
-    
-    Agent2 -- "Evidence Found" --> Agent3
-    Agent1 -- "Risk Score" --> Agent3
-    
-    Agent3 -- "Autonomous Action" --> NSRC
-    Agent3 -- "Update Modus Operandi" --> Agent1
+    Orchestrator --> Agent2[<b>Agent 2: Forensic Specialist</b>]
+    Agent2 -.-> Tool1{{Link & Image<br/>Scanner}}
 
-    %% Styling
-    style User fill:#f9f9ff,stroke:#333,stroke-width:2px
-    style Orchestrator fill:#efefff,stroke:#8a8aff,stroke-width:2px
-    style Agent1 fill:#efefff,stroke:#8a8aff
-    style Agent2 fill:#efefff,stroke:#8a8aff
-    style Agent3 fill:#efefff,stroke:#8a8aff
-    style DB fill:#f4f4ff,stroke:#8a8aff,stroke-dasharray: 5 5
+    Orchestrator --> Agent3[<b>Agent 3: Incident Responder</b>]
+    Agent3 -.-> Tool2{{Police Report<br/>Drafting Tool}}
+    end
+
+    %% Flow of Logic
+    Agent1 -- "Risk Score & Modus Operandi" --> Orchestrator
+    Agent2 -- "Malicious Evidence Found" --> Agent3
+    Agent3 -- "NSRC 997 Alert & Draft Report" --> User
+    Agent3 -- "New Pattern Data" --> Agent1
 
 ```
 The system uses an A2A Orchestrator where the Scam Analyst automatically triggers the Forensic Agent upon detecting technical indicators (URLs/Images), passing structured metadata without human intervention. The Incident Responder utilizes Genkit's structured output to generate a localized PDRM report chronology, significantly reducing the 'Golden Hour' response time required by the NSRC. Confirmed scams are fed back into our local MongoDB Atlas pattern database, allowing the Scam Analyst to recognize evolving modus operandi in real-time.
