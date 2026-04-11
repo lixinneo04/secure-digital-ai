@@ -40,7 +40,7 @@ graph TD
     Agent3 -- "New Pattern Data" --> Agent1
 
 ```
-The system uses an A2A Orchestrator where the Scam Analyst automatically triggers the Forensic Agent upon detecting technical indicators (URLs/Images), passing structured metadata without human intervention. The Incident Responder utilizes Genkit's structured output to generate a localized PDRM report chronology, significantly reducing the 'Golden Hour' response time required by the NSRC. Confirmed scams are fed back into our local MongoDB Atlas pattern database, allowing the Scam Analyst to recognize evolving modus operandi in real-time.
+To protect users within the critical 'Golden Hour' of a financial scam, our system employs an autonomous A2A orchestrator. The process begins when the Scam Analyst identifies technical threats and triggers the Forensic Agent to extract metadata without user intervention. This intelligence is then utilized by the Incident Responder to generate a precise, PDRM-ready report chronology, drastically accelerating the reporting process for the NSRC. To ensure long-term resilience, the system logs confirmed threats into MongoDB Atlas, allowing the agents to recognize and block new scam patterns in real-time.
 
 ## 🚀 Strategic Impact: Solving the Reporting Bottleneck
 Secure Digital isn't just a detection tool; it is a **Response Accelerator** designed to save the Golden Hour:
