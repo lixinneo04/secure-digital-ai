@@ -419,7 +419,8 @@ textarea:focus {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.report-section {
+.report-section,
+.data-group {
     margin-bottom: 2rem;
 }
 
@@ -584,7 +585,9 @@ footer {
 }
 
 @media (max-width: 768px) {
-    .analysis-grid {
+
+    .analysis-grid,
+    .form-grid {
         grid-template-columns: 1fr;
     }
 
@@ -604,6 +607,7 @@ footer {
 /* --- New Input Features --- */
 .input-modes {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.5rem;
     margin-bottom: 2rem;
     border-bottom: 1px solid var(--glass-border);
@@ -761,6 +765,8 @@ footer {
     font-size: 1rem;
     outline: none;
     transition: all 0.3s ease;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .form-group input:focus {

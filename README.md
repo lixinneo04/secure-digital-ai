@@ -80,11 +80,15 @@ VIRUSTOTAL_API_KEY="your-vt-key"
 
 ## 🖥️ Usage
 
-1. Open `http://localhost:3000` in your browser.
+1. Open `http://localhost:3000` or deployment link below in your browser.
 2. Paste a suspicious message, SMS, or narrative into the input field.
 3. Click "INITIALIZE ANALYSIS".
 4. Watch the AI agents perform the multi-step "Golden Hour" detection.
 5. Download the generated PDRM report if a threat is confirmed.
+
+## 🌐 Deployment in Google Cloud Run
+
+Deployment link: https://secure-digital-shield-934974207372.asia-southeast1.run.app
 
 ---
 Built with ❤️ for the **GDG Hackathon 2026**.

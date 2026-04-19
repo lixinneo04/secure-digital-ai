@@ -110,9 +110,9 @@ export async function forensicFlow(input: ForensicInput, onProgress?: (msg: stri
   } catch (error) {
     console.log('⚠️ Failed to parse JSON, using fallback forensics');
     const fallbackForensics = {
-      maliciousUrls: ['https://lhdn-online-gov.net'],
-      visualRedFlags: ['Suspicious domain name', 'Urgent verification request'],
-      technicalEvidence: { domain_age: 'recently registered', ssl_status: 'valid but suspicious' },
+      maliciousUrls: [''],
+      visualRedFlags: [''],
+      technicalEvidence: { domain_age: '', ssl_status: '' },
     };
 
     // Scan URLs in fallback forensics too

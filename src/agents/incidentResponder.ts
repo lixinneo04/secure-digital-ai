@@ -93,13 +93,13 @@ export async function incidentResponderFlow(input: IncidentResponderInput): Prom
     console.log('⚠️ Failed to parse or validate JSON.', error);
     console.log('⚠️ Failed to parse JSON.');
     const fallbackReport: PDRMReport = {
-      caseChronology: 'Incident reported at 2:30 PM. Immediate analysis initiated.',
-      evidenceSummary: 'Suspicious URL and urgent money transfer request detected.',
-      policeReport: 'The victim received a fake LHDN tax demand SMS with a malicious URL, followed by a WhatsApp call from an impersonator claiming to be a PDRM officer. The suspect requested TAC codes and an RM12,000 transfer to a shell account. Immediate police action is required.',
+      caseChronology: '',
+      evidenceSummary: '',
+      policeReport: '',
       nsrcActionRequired: true,
       draftReportStatus: 'Ready_for_Submission',
-      recommendedActions: ['Block suspicious URLs', 'Contact victim bank', 'File police report'],
-      urgencyLevel: 'High',
+      recommendedActions: ['', '', ''],
+      urgencyLevel: 'Low',
     };
 
     const pdfResult = await buildPoliceReportPdf(fallbackReport, 'PDRM_Police_Report_Fallback.pdf');
@@ -145,7 +145,6 @@ export async function buildPoliceReportPdf(report: PDRMReport, outputFileName = 
   doc.moveDown(1);
 
   // Report Information Section
-  //doc.font('Helvetica-Bold').fontSize(14).text('Report Information');
   doc.moveDown(0.5);
   doc.font('Helvetica').fontSize(12);
   doc.text('State: ___________________________________________');
@@ -184,32 +183,11 @@ export async function buildPoliceReportPdf(report: PDRMReport, outputFileName = 
   doc.font('Helvetica').fontSize(11)/*.text(`Report Status: ${report.draftReportStatus}`, { continued: true })*/.text(`   Urgency Level: ${report.urgencyLevel}`, { align: 'right' });
   doc.moveDown(1);
 
-  // Case Chronology
-  //doc.font('Helvetica-Bold').fontSize(14).text('Case Chronology');
-  //doc.moveDown(0.5);
-  //doc.font('Helvetica').fontSize(12).text(report.caseChronology, { lineGap: 4 });
-  //doc.moveDown(1);
-
-  // Evidence Summary
-  //doc.font('Helvetica-Bold').fontSize(14).text('Evidence Summary');
-  //doc.moveDown(0.5);
-  //doc.font('Helvetica').fontSize(12).text(report.evidenceSummary, { lineGap: 4 });
-  //doc.moveDown(1);
-
   // Police Report Narrative
   doc.font('Helvetica-Bold').fontSize(14).text('Police Report Narrative');
   doc.moveDown(0.5);
   doc.font('Helvetica').fontSize(12).text(report.policeReport, { align: 'justify', lineGap: 4 });
   doc.moveDown(1);
-
-  // Recommended Actions (without bullets)
-  //doc.font('Helvetica-Bold').fontSize(14).text('Recommended Actions');
-  //doc.moveDown(0.5);
-  //doc.font('Helvetica').fontSize(12);
-  //report.recommendedActions.forEach((action, index) => {
-  //  doc.text(`${index + 1}. ${action}`, { lineGap: 4 });
-  //});
-  //doc.moveDown(1);
 
   // Signature Lines
   doc.moveDown(1);
