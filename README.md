@@ -1,6 +1,6 @@
-# Secure Digital Shield 🛡️
+# SOFAR (Scam Online Forensic Agent Responder) 🛡️
 
-**Secure Digital Shield** is a premium, multi-agent AI system designed to protect Malaysians from evolving digital scams. By leveraging the power of **Genkit**, **Google Gemini**, and official data sources, it provides real-time analysis, digital forensics, and automated incident response during the "Golden Hour" of a scam.
+**SOFAR** is a premium, multi-agent AI system designed to protect Malaysians from evolving digital scams. By leveraging the power of **Genkit**, **Google Gemini**, and official data sources, it provides real-time analysis, digital forensics, and automated incident response during the "Golden Hour" of a scam.
 
 ## 🚀 Key Features
 

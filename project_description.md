@@ -9,8 +9,8 @@ Current limitations include:
 - **Manual Verification**: Cross-references suspicious accounts against official lists (like BNM's Consumer Alert) is manual and time-consuming.
 - **Fragmented Evidence**: Technical indicators like malicious URLs often vanish before they can be analyzed by forensic teams.
 
-### 2. The Solution: Secure Digital Shield
-**Secure Digital Shield** is a premium, multi-agent AI system designed to automate the defense and reporting lifecycle. It acts as an intelligent first responder that:
+### 2. The Solution: SOFAR
+**SOFAR** is a premium, multi-agent AI system designed to automate the defense and reporting lifecycle. It acts as an intelligent first responder that:
 - **Analyzes** scams in real-time using Genkit and Google Gemini.
 - **Performs digital forensics** on technical indicators (URLs, account numbers).
 - **Automates institutional reporting** to authorities like Bank Negara Malaysia (BNM) and PDRM during that critical Golden Hour.
