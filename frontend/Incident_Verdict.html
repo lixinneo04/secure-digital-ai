@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Sentinel AI - Incident Verdict</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-fixed-variant": "#39475f",
+                        "error": "#ffb4ab",
+                        "surface": "#041329",
+                        "on-surface": "#d6e3ff",
+                        "surface-variant": "#27354c",
+                        "tertiary-fixed-dim": "#ffba38",
+                        "on-tertiary-fixed-variant": "#604100",
+                        "secondary-fixed": "#8df5e4",
+                        "on-secondary": "#003731",
+                        "primary-fixed-dim": "#b9c7e4",
+                        "secondary": "#70d8c8",
+                        "secondary-fixed-dim": "#70d8c8",
+                        "primary-container": "#0a192f",
+                        "surface-container-low": "#0d1c32",
+                        "surface-dim": "#041329",
+                        "on-background": "#d6e3ff",
+                        "surface-container": "#112036",
+                        "inverse-surface": "#d6e3ff",
+                        "on-primary": "#233148",
+                        "on-tertiary-fixed": "#281900",
+                        "on-tertiary-container": "#ac7800",
+                        "on-surface-variant": "#c5c6cd",
+                        "secondary-container": "#32a192",
+                        "on-primary-container": "#74829d",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-highest": "#27354c",
+                        "on-secondary-fixed": "#00201c",
+                        "surface-container-lowest": "#010e24",
+                        "error-container": "#93000a",
+                        "surface-bright": "#2c3951",
+                        "tertiary-container": "#241600",
+                        "tertiary": "#ffba38",
+                        "on-secondary-fixed-variant": "#005048",
+                        "inverse-primary": "#515f78",
+                        "inverse-on-surface": "#233148",
+                        "primary": "#b9c7e4",
+                        "on-primary-fixed": "#0d1c32",
+                        "surface-tint": "#b9c7e4",
+                        "background": "#041329",
+                        "primary-fixed": "#d6e3ff",
+                        "tertiary-fixed": "#ffdeac",
+                        "surface-container-high": "#1c2a41",
+                        "on-tertiary": "#432c00",
+                        "on-error": "#690005",
+                        "outline": "#8f9097",
+                        "on-secondary-container": "#00302a",
+                        "outline-variant": "#44474d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Space Grotesk', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(39, 53, 76, 0.6);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface selection:bg-secondary/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#041329] bg-gradient-to-b from-[#0A192F] to-transparent shadow-2xl shadow-black/50 flex items-center justify-between px-6 h-20">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#B9C7E4]" data-icon="shield">shield</span>
+<h1 class="text-2xl font-bold text-[#B9C7E4] tracking-widest uppercase font-['Space_Grotesk']">Sentinel AI</h1>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-8 text-[12px] font-bold tracking-[0.2em] uppercase font-['Inter']">
+<a class="text-[#B9C7E4]/60 hover:bg-[#B9C7E4]/10 transition-colors px-3 py-2 rounded-lg" href="#">Dashboard</a>
+<a class="text-[#70D8C8] hover:bg-[#B9C7E4]/10 transition-colors px-3 py-2 rounded-lg" href="#">Reports</a>
+<a class="text-[#B9C7E4]/60 hover:bg-[#B9C7E4]/10 transition-colors px-3 py-2 rounded-lg" href="#">Archive</a>
+</nav>
+<div class="w-10 h-10 rounded-full bg-surface-container-highest border border-outline-variant flex items-center justify-center overflow-hidden">
+<img alt="User Security Profile" class="w-full h-full object-cover" data-alt="portrait of a focused professional male in a dark suit against a cinematic dark blue background with digital light leaks" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA53eIqEjMe80I8Tl5RHYUaDSfS2xYE0MNgW-lp2VSS5Lstwt7IRPXQGDuy7yN_4jjBoBA5MXFKsScSknTJ4k4ErnL8b_Csp6ydkJybxP05DDP7q4Vegt__M1MuhnA3Z0YEYQZuK6sAWunC7VNBb0Z0lLhlfz8azMfZZf2BZGd_0P56sejPJqM6l80ZVI3j7Z209_84dEWG5QJInFTDK-S3V_QfwZtia_ZE_YbzyqeBfmycKzcU5JQ1uvbxgIGyjv71qsGZqwd5Vaw"/>
+</div>
+</div>
+</header>
+<main class="pt-28 pb-32 px-6 max-w-5xl mx-auto">
+<!-- Hero Verdict Section -->
+<section class="mb-12 relative overflow-hidden rounded-[2rem] p-1 bg-gradient-to-br from-error/20 via-transparent to-transparent">
+<div class="bg-surface-container-low rounded-[1.8rem] p-8 md:p-12 relative z-10">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+<div class="space-y-4">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-error-container text-error text-xs font-bold tracking-widest uppercase">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                            Critical Threat Detected
+                        </div>
+<h2 class="text-5xl md:text-7xl font-headline font-bold text-on-surface leading-none tracking-tight">
+                            High Probability Scam
+                        </h2>
+<p class="text-on-surface-variant max-w-xl font-body text-lg leading-relaxed">
+                            Analysis of transaction metadata and communication patterns confirms a sophisticated social engineering attempt targeting core financial assets.
+                        </p>
+</div>
+<div class="flex flex-col items-center justify-center p-6 bg-surface-container-highest rounded-3xl border border-outline-variant/20 shadow-xl">
+<span class="text-xs font-bold uppercase tracking-[0.3em] text-on-surface-variant mb-2">Confidence Score</span>
+<div class="text-6xl font-headline font-bold text-secondary">98<span class="text-2xl">%</span></div>
+<div class="mt-4 w-32 h-1.5 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[98%] shadow-[0_0_12px_#70d8c8]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Background Pulse Orb -->
+<div class="absolute -top-24 -right-24 w-96 h-96 bg-error/10 rounded-full blur-[100px] pointer-events-none"></div>
+</section>
+<!-- Asymmetric Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Forensic Case Chronology -->
+<div class="md:col-span-8 bg-surface-container rounded-3xl p-8 border-l-4 border-error">
+<h3 class="text-2xl font-headline font-bold mb-8 flex items-center gap-3">
+<span class="material-symbols-outlined text-error" data-icon="history">history</span>
+                    Forensic Case Chronology
+                </h3>
+<div class="space-y-10 relative">
+<div class="absolute left-[11px] top-2 bottom-2 w-[2px] bg-outline-variant/30"></div>
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-surface-container border-4 border-error z-10"></div>
+<div class="text-sm font-bold text-secondary mb-1">T-Minus 02:14:00</div>
+<h4 class="text-lg font-headline font-medium text-on-surface">Initial Phishing Vector</h4>
+<p class="text-on-surface-variant text-sm mt-1 leading-relaxed">System intercepted an encrypted message originating from an unverified IP range in East Asia. Link redirection observed targeting legacy portal login.</p>
+</div>
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-surface-container border-4 border-outline-variant z-10"></div>
+<div class="text-sm font-bold text-on-surface-variant mb-1">T-Minus 01:45:00</div>
+<h4 class="text-lg font-headline font-medium text-on-surface">Lateral Movement Attempt</h4>
+<p class="text-on-surface-variant text-sm mt-1 leading-relaxed">Automated brute-force patterns detected on secondary administrator accounts. Sentinel AI deployed deceptive honey-tokens to misdirect the actor.</p>
+</div>
+<div class="relative pl-10">
+<div class="absolute left-0 top-1 w-6 h-6 rounded-full bg-surface-container border-4 border-error z-10"></div>
+<div class="text-sm font-bold text-error mb-1">T-Minus 00:05:12</div>
+<h4 class="text-lg font-headline font-medium text-on-surface">Escalation Verdict</h4>
+<p class="text-on-surface-variant text-sm mt-1 leading-relaxed">Pattern matching with PDRM known-threat databases yielded a 98.4% match with 'Operation Silken Shadow' fraud tactics. Account locked.</p>
+</div>
+</div>
+</div>
+<!-- Recommended Actions Sidebar -->
+<div class="md:col-span-4 space-y-6">
+<div class="bg-surface-container-high rounded-3xl p-6 border border-outline-variant/10 shadow-lg">
+<h3 class="text-xl font-headline font-bold mb-6 text-primary">Recommended Actions</h3>
+<ul class="space-y-4">
+<li class="flex items-start gap-3 p-3 rounded-2xl bg-surface-container-highest/50">
+<span class="material-symbols-outlined text-secondary mt-0.5" data-icon="lock_reset">lock_reset</span>
+<div>
+<p class="text-sm font-bold text-on-surface">Reset Master Credentials</p>
+<p class="text-xs text-on-surface-variant">Invalidate all active sessions immediately.</p>
+</div>
+</li>
+<li class="flex items-start gap-3 p-3 rounded-2xl bg-surface-container-highest/50">
+<span class="material-symbols-outlined text-secondary mt-0.5" data-icon="gavel">gavel</span>
+<div>
+<p class="text-sm font-bold text-on-surface">Lodge PDRM Report</p>
+<p class="text-xs text-on-surface-variant">Formalize digital evidence for legal action.</p>
+</div>
+</li>
+<li class="flex items-start gap-3 p-3 rounded-2xl bg-surface-container-highest/50">
+<span class="material-symbols-outlined text-secondary mt-0.5" data-icon="account_balance">account_balance</span>
+<div>
+<p class="text-sm font-bold text-on-surface">Freeze Related Accounts</p>
+<p class="text-xs text-on-surface-variant">Coordinate with partner banks for protection.</p>
+</div>
+</li>
+</ul>
+</div>
+<!-- Incident Context Image -->
+<div class="relative group rounded-3xl overflow-hidden h-48 border border-outline-variant/10">
+<img alt="Cyber Security Hub" class="w-full h-full object-cover grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" data-alt="abstract close up of a high-tech computer server room with neon blue and green data wires and glowing server lights" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAKAEJypylp77QQo7vC6r4F8u6c7ecCznDaacHBSJrP6j016SyasfUAoL5M9PuW-dfC-tlsfvFhoU_a3H3-gC73M1Oc8f4ijz76jw64UxZdZIVuQ-zjKOkeLLWpf6MY2hbVDyj30smRp-qVyUtoVJazdf_Ugj-w96DjuOagE2hbwXnSRL9nZj6rkHLQ5kZ6HS9mgSuZpuzJ7h4ikgZGFBpskeOA7S6EqKUF2UrkLZt5pMQ6f6qtw8pAMPjbMX6FtOZRiuHwl0Qhtg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<div class="absolute bottom-4 left-4">
+<span class="text-[10px] font-bold uppercase tracking-widest text-secondary">Asset Coverage</span>
+<div class="text-sm font-headline font-medium text-on-surface">Financial Perimeter Active</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Call to Action -->
+<div class="mt-12 flex flex-col items-center gap-6">
+<button class="w-full md:w-auto px-12 py-5 bg-gradient-to-br from-primary to-primary-container text-on-primary font-headline font-bold text-lg rounded-full shadow-[0_20px_40px_rgba(185,199,228,0.15)] hover:opacity-90 active:scale-95 transition-all duration-150 flex items-center justify-center gap-3">
+<span class="material-symbols-outlined" data-icon="download">download</span>
+                Download Formal PDRM Report
+            </button>
+<button class="text-primary-fixed-dim hover:text-primary transition-colors text-sm font-bold tracking-widest uppercase flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="share">share</span>
+                Share with Security Team
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 rounded-t-[32px] bg-[#0A192F]/60 backdrop-blur-xl border-t border-[#B9C7E4]/10 shadow-[0_-24px_48px_rgba(1,14,36,0.5)] flex justify-around items-center h-24 px-8 pb-4">
+<div class="flex flex-col items-center justify-center text-[#B9C7E4]/40 hover:text-[#B9C7E4] transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="dashboard">dashboard</span>
+<span class="font-['Inter'] text-[10px] uppercase font-bold tracking-widest">Dashboard</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#70D8C8] scale-110 transition-transform">
+<span class="material-symbols-outlined mb-1" data-icon="analytics">analytics</span>
+<span class="font-['Inter'] text-[10px] uppercase font-bold tracking-widest">Reports</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#B9C7E4]/40 hover:text-[#B9C7E4] transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="inventory_2">inventory_2</span>
+<span class="font-['Inter'] text-[10px] uppercase font-bold tracking-widest">Archive</span>
+</div>
+</nav>
+</body></html>

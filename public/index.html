@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Digital Shield | Malaysian Anti-Scam AI</title>
+    <link rel="stylesheet" href="style.css?v=4">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://kit.fontawesome.com/62c0338779.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="background-overlay"></div>
+
+    <header>
+        <div class="logo">
+            <i class="fas fa-shield-alt"></i>
+            <span>SECURE DIGITAL <strong>SHIELD</strong></span>
+        </div>
+        <nav>
+            <span class="status-indicator">
+                <span class="pulse"></span>
+                SYSTEM ACTIVE
+            </span>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Protecting Malaysians from <span>Digital Threats</span></h1>
+            <p>Our multi-agent AI system analyzes scams, performs forensics, and coordinates with PDRM and NSRC in
+                real-time.</p>
+        </section>
+
+        <section class="input-section glass">
+            <div class="input-header">
+                <div class="input-modes">
+                    <button class="mode-btn active" id="narrativeModeBtn">FREE NARRATIVE</button>
+                    <button class="mode-btn" id="guidedModeBtn">GUIDED INPUT</button>
+                </div>
+            </div>
+
+            <!-- Narrative Mode -->
+            <div id="narrativeContainer" class="mode-container">
+                <div class="textarea-wrapper">
+                    <textarea id="userInput"
+                        placeholder="At 2:30 PM today, I received an SMS claiming to be from LHDN..."></textarea>
+                    <button id="micBtn" class="mic-button" title="Speech to Text">
+                        <i id="micIcon" class="fa-solid fa-microphone text-white fa-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Guided Mode -->
+            <div id="guidedContainer" class="mode-container hidden">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Incident Date/Time</label>
+                        <input type="datetime-local" id="guideDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Scammer Name/Alias</label>
+                        <input type="text" id="guideName" placeholder="e.g. Inspector Fauzi / Synergy Trading">
+                    </div>
+                    <div class="form-group">
+                        <label>Suspicious URL/Link</label>
+                        <input type="url" id="guideUrl" placeholder="http://www.aevfc.com/">
+                    </div>
+                    <div class="form-group">
+                        <label>Bank Account Number</label>
+                        <input type="text" id="guideBank" placeholder="e.g. 1234567890 (Maybank)">
+                    </div>
+                    <div class="form-group full-width">
+                        <label>Additional Details</label>
+                        <textarea id="guideOther" style="height: 100px;" placeholder="Other details?"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <button id="analyzeBtn" class="premium-button">
+                <span>INITIALIZE ANALYSIS</span>
+                <i class="fas fa-bolt"></i>
+            </button>
+        </section>
+
+        <section id="resultsSection" class="results-container hidden">
+            <div class="status-board">
+                <div class="status-card glass" id="bnmStatus">
+                    <i class="fas fa-university"></i>
+                    <div>
+                        <span class="status-label">BNM REGISTRY STATUS</span>
+                        <h4 id="bnmMatchText">Checking...</h4>
+                    </div>
+                </div>
+                <div class="status-card glass" id="dbStatus">
+                    <i class="fas fa-database"></i>
+                    <div>
+                        <span class="status-label">INTERNAL DB REGISTRY</span>
+                        <h4 id="dbMatchText">Checking...</h4>
+                    </div>
+                </div>
+                <div class="status-card glass" id="vtStatus">
+                    <i class="fas fa-shield-virus"></i>
+                    <div>
+                        <span class="status-label">VIRUSTOTAL REPUTATION</span>
+                        <h4 id="vtMatchText">Checking...</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="analysis-grid">
+                <!-- Scam Analyst Card -->
+                <div class="card glass animate-card-1" id="scamAnalystCard">
+                    <div class="card-header">
+                        <i class="fas fa-brain"></i>
+                        <h4>Scam Analyst</h4>
+                    </div>
+                    <div class="analysis-body">
+                        <div class="probability-score">
+                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <path id="probCircle" class="circle" stroke-dasharray="0, 100"
+                                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                                <text x="18" y="20.35" class="percentage" id="probText">0%</text>
+                            </svg>
+                        </div>
+                        <div class="patterns">
+                            <h5>DETECTED PATTERNS</h5>
+                            <ul id="patternList"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Forensic Card -->
+                <div class="card glass animate-card-2" id="forensicCard">
+                    <div class="card-header">
+                        <i class="fas fa-microscope"></i>
+                        <h4>Forensic Extraction</h4>
+                    </div>
+                    <div class="forensic-body">
+                        <div class="data-group">
+                            <h5>MALICIOUS URLS</h5>
+                            <div id="urlList" class="tag-container"></div>
+                        </div>
+                        <div class="data-group">
+                            <h5>VISUAL RED FLAGS</h5>
+                            <ul id="flagList" class="small-list"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Incident Report Card -->
+                <div class="card glass full-width animate-card-3" id="incidentCard">
+                    <div class="card-header">
+                        <i class="fas fa-file-invoice"></i>
+                        <h4>Incident Response Report</h4>
+                        <div class="card-actions">
+                            <button id="downloadPdf" class="small-btn" title="Download PDF"><i
+                                    class="fas fa-download"></i></button>
+                        </div>
+                    </div>
+                    <div class="report-body">
+                        <div class="report-section">
+                            <h5>POLICE NARRATIVE (MALAY)</h5>
+                            <p id="policeNarrative" class="typed-text"></p>
+                        </div>
+                        <div class="report-section">
+                            <h5>RECOMMENDED ACTIONS</h5>
+                            <ul id="actionList" class="check-list"></ul>
+                        </div>
+                        <div class="status-tags">
+                            <span class="tag" id="urgencyTag">High Urgency</span>
+                            <span class="tag" id="nsrcTag">NSRC Notification Active</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Loading Overlay -->
+        <div id="loadingOverlay" class="overlay hidden">
+            <div class="loader-content">
+                <div class="orbit-spinner">
+                    <div class="orbit"></div>
+                    <div class="orbit"></div>
+                    <div class="orbit"></div>
+                </div>
+                <h4 id="loadingText">Agent Brain Initializing...</h4>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Secure Digital Shield. Built for GDG Hackathon. Powered by Google AI.</p>
+    </footer>
+
+    <script src="main.js?v=2"></script>
+</body>
+
+</html>

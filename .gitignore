@@ -1,0 +1,29 @@
+# Dependency directories
+node_modules/
+
+# Secrets and environment variables
+.env
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+
+# Local Genkit metadata
+.genkit/
+
+# Generated reports & outputs
+*.pdf
+PDRM_Police_Report.pdf
+
+# Testing and scratch files
+scratch/
+test/
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Build outputs (if any)
+dist/
+build/
