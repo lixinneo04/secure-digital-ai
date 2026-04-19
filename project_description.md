@@ -1,4 +1,4 @@
-# Secure Digital Shield 🛡️
+# SOFAR (Scam Online Forensic Agent Responder) 🛡️
 ## AI-Powered Protection for the Digital Malaysian Frontier
 
 ### 1. The Problem: The Rising Tide of Digital Fraud
