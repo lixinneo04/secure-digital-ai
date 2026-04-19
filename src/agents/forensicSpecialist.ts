@@ -76,8 +76,8 @@ export async function forensicFlow(input: ForensicInput, onProgress?: (msg: stri
 
     Look for:
     - Suspicious URLs (shortened, misspelled domains, unusual TLDs)
-    - Phone numbers or contact methods
-    - Bank account details mentioned
+    - Phone numbers, contact methods, or bank accounts (add to visualRedFlags)
+    - Psychological tactics like high returns, urgency, or impersonation (add to visualRedFlags)
     - Technical indicators of phishing/malware
     - Domain analysis clues
     - SSL/certificate issues mentioned
