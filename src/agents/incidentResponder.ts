@@ -7,6 +7,7 @@ import { genkit } from 'genkit';
 import { googleAI } from '@genkit-ai/google-genai';
 import { ScamAnalysisSchema, type ScamAnalysis } from './scamAnalyst.js';
 import { ForensicExtractionSchema, type ForensicExtraction } from './forensicSpecialist.js';
+import { sendBnmEmail } from '../tools/emailBnm.js';
 
 // Initialize Genkit with Google AI
 const ai = genkit({
@@ -83,6 +84,17 @@ export async function incidentResponderFlow(input: IncidentResponderInput): Prom
       if (report.urgencyLevel === 'Critical' && report.nsrcActionRequired) {
         console.log('🚨 CRITICAL: Executing immediate response actions...');
         await executeCriticalActions(report, input);
+      }
+
+      // Auto-trigger BNM email if bank accounts are found AND scam probability > 80
+      if (
+        input.analysis.scammerBankAccounts &&
+        input.analysis.scammerBankAccounts.length > 0 &&
+        input.analysis.scamProbability > 80
+      ) {
+        console.log('✉️ Condition met: High probability scam with bank accounts detected. Triggering automated email notification...');
+        const emailRecipients = input.analysis.recipientEmails || [];
+        await sendBnmEmail(input.analysis.scammerBankAccounts, input.analysis, emailRecipients);
       }
 
       return report;

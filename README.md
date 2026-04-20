@@ -28,6 +28,7 @@ graph TD
         SA -- Queries --> RTDB[Firebase Realtime DB]
         FS -- Scans --> VT[VirusTotal API]
         IR -- Generates --> PDF[PDFKit - PDRM Report]
+        IR -- Automated Email --> Email[BNM Action Email]
     end
     
     IR --> Dashboard([Web UI Dashboard])
@@ -36,7 +37,7 @@ graph TD
 ### The Agents
 1.  **Scam Analyst**: The first responder. It identifies patterns, cross-references with official lists (BNM & Firebase), and determines the probability of a scam.
 2.  **Forensic Specialist**: Triggered when technical indicators are found. It extracts URLs and technical evidence, performing deep analysis via VirusTotal.
-3.  **Incident Responder**: The action agent. It crafts the police report narrative, generates the downloadable PDF, and simulates critical actions like bank notifications.
+3.  **Incident Responder**: The action agent. It crafts the police report narrative, generates the downloadable PDF, triggers automated BNM emails for high probability scams, and simulates critical actions like bank notifications.
 
 ## 🛠️ Technical Stack
 

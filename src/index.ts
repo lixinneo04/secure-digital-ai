@@ -5,7 +5,6 @@ import { scamAnalystFlow } from './agents/scamAnalyst.js';
 import { forensicFlow } from './agents/forensicSpecialist.js';
 import { incidentResponderFlow } from './agents/incidentResponder.js';
 import { reportNewScam } from './tools/report_new_scam.js';
-import { sendBnmEmail } from './tools/emailBnm.js';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
@@ -25,11 +24,6 @@ export async function secureDigitalShield(userInput: string, onProgress?: (step:
   if (onProgress) onProgress('Analyzing scam patterns...');
   const analysis = await scamAnalystFlow(userInput);
   if (onProgress) onProgress('Scam Analysis Complete', analysis);
-
-  if (analysis.scammerBankAccounts && analysis.scammerBankAccounts.length > 0) {
-    if (onProgress) onProgress('Notifying BNM to block scammer bank accounts...', analysis.scammerBankAccounts);
-    await sendBnmEmail(analysis.scammerBankAccounts, analysis, analysis.recipientEmails);
-  }
 
   let forensics: any = {
     maliciousUrls: [],
