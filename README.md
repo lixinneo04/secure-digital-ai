@@ -91,6 +91,10 @@ VIRUSTOTAL_API_KEY="your-vt-key"
 
 Deployment link: https://secure-digital-shield-934974207372.asia-southeast1.run.app
 
+## 💻 Google Slide 
+
+Slide link: https://docs.google.com/presentation/d/1QGwt_NYknNqvUa6r3K7kcSKtgBSTYvlDX_wDw0h_aJU/edit?usp=sharing
+
 ---
 Built with ❤️ for the **GDG Hackathon 2026**.
 🛡️ *Protecting the Digital Malaysian Frontier.*
