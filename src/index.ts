@@ -4,12 +4,13 @@ import { googleAI } from '@genkit-ai/google-genai';
 import { scamAnalystFlow } from './agents/scamAnalyst.js';
 import { forensicFlow } from './agents/forensicSpecialist.js';
 import { incidentResponderFlow } from './agents/incidentResponder.js';
-import { reportNewScam } from './tools/report_new_scam.js';
+import { reportNewScam, getScamCount } from './tools/report_new_scam.js';
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
+import nodemailer from 'nodemailer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -92,6 +93,51 @@ app.get('/api/download-report', (req, res) => {
     res.download(filePath, 'PDRM_Police_Report.pdf');
   } else {
     res.status(404).json({ error: 'Report not generated yet' });
+  }
+});
+
+app.get('/api/stats', async (req, res) => {
+  try {
+    const count = await getScamCount();
+    res.json({ firebaseCaseCount: count });
+  } catch (error: any) {
+    console.error('Error fetching stats:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+app.post('/api/send-police-report', async (req, res) => {
+  try {
+    const { reportContent, userName } = req.body;
+
+    const emailUser = process.env.EMAIL_USER;
+    const emailPass = process.env.EMAIL_APP_PASSWORD;
+
+    if (!emailUser || !emailPass) {
+      return res.status(500).json({ error: 'Email configuration missing on server.' });
+    }
+
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: emailUser,
+        pass: emailPass,
+      },
+    });
+
+    const mailOptions = {
+      from: emailUser,
+      to: 'rickytan5350@gmail.com',
+      subject: `🚨 Official Police Report Submission - Analyst AI`,
+      text: `A new police report has been submitted.\n\n${reportContent}`,
+    };
+
+    await transporter.sendMail(mailOptions);
+    console.log('✅ Police report email sent to rickytan5350@gmail.com');
+    res.json({ success: true, message: 'Report sent.' });
+  } catch (error: any) {
+    console.error('Email sending failed:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 

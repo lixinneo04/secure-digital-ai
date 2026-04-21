@@ -5,6 +5,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadingText = document.getElementById('loadingText');
     const resultsSection = document.getElementById('resultsSection');
 
+    // Fetch initial stats
+    async function fetchStats() {
+        try {
+            const response = await fetch('/api/stats');
+            const data = await response.json();
+            if (data.firebaseCaseCount !== undefined) {
+                document.getElementById('firebaseCaseCount').innerText = data.firebaseCaseCount.toLocaleString();
+            }
+        } catch (error) {
+            console.error('Failed to fetch stats:', error);
+        }
+    }
+    fetchStats();
+
     // Results elements
     const bnmMatchText = document.getElementById('bnmMatchText');
     const bnmStatus = document.getElementById('bnmStatus');
@@ -149,10 +163,25 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        let loadingInterval;
         // Show loading
         loadingOverlay.classList.remove('hidden');
         resultsSection.classList.add('hidden');
-        loadingText.innerText = 'Consulting Malaysian Cybercrime Specialist Brain...';
+
+        const agentJobs = [
+            'Scout Agent gathering preliminary data...',
+            'Consulting BNM & PDRM databases...',
+            'Analyst Agent evaluating scam probability...',
+            'Forensic Agent analyzing URLs and red flags...',
+            'Incident Responder Agent generating incident report...',
+            'Finalizing comprehensive analysis...'
+        ];
+        let jobIndex = 0;
+        loadingText.innerText = agentJobs[jobIndex];
+        loadingInterval = setInterval(() => {
+            jobIndex = (jobIndex + 1) % agentJobs.length;
+            loadingText.innerText = agentJobs[jobIndex];
+        }, 3000);
 
         try {
             const response = await fetch('/api/analyze', {
@@ -169,6 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(error);
             alert('System error during analysis. Please try again.');
         } finally {
+            clearInterval(loadingInterval);
             loadingOverlay.classList.add('hidden');
         }
     });
@@ -245,4 +275,70 @@ document.addEventListener('DOMContentLoaded', () => {
         resultsSection.classList.remove('hidden');
         resultsSection.scrollIntoView({ behavior: 'smooth' });
     }
+
+    // --- Personal Info Autofill & Email Output ---
+    const autofillBtn = document.getElementById('autofillBtn');
+    const sendPoliceBtn = document.getElementById('sendPoliceBtn');
+    const autofillModal = document.getElementById('autofillModal');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const saveInfoBtn = document.getElementById('saveInfoBtn');
+
+    autofillBtn.addEventListener('click', () => {
+        autofillModal.classList.remove('hidden');
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+        autofillModal.classList.add('hidden');
+    });
+
+    saveInfoBtn.addEventListener('click', () => {
+        const name = document.getElementById('victimName').value.trim();
+        const ic = document.getElementById('victimIC').value.trim();
+        const phone = document.getElementById('victimPhone').value.trim();
+
+        if (!name || !ic || !phone) {
+            alert('Please fill all fields to autofill your report.');
+            return;
+        }
+
+        const currentText = policeNarrative.innerText;
+        const personalInfoSection = `\n\nMaklumat Pengadu:\nNama: ${name}\nNo. Kad Pengenalan: ${ic}\nNo. Telefon: ${phone}\n`;
+
+        policeNarrative.innerText = currentText + personalInfoSection;
+
+        autofillModal.classList.add('hidden');
+        alert('Personal Information has been automatically appended to your report narrative!');
+    });
+
+    sendPoliceBtn.addEventListener('click', async () => {
+        if (!policeNarrative.innerText) {
+            alert('No report available to send.');
+            return;
+        }
+
+        // Use a visual cue for sending
+        const originalText = sendPoliceBtn.innerHTML;
+        sendPoliceBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        sendPoliceBtn.disabled = true;
+
+        try {
+            const response = await fetch('/api/send-police-report', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    reportContent: policeNarrative.innerText,
+                    userName: document.getElementById('victimName').value.trim()
+                })
+            });
+
+            if (!response.ok) throw new Error('Failed to send email');
+            alert('Report successfully automatically forwarded to the authorities (rickytan5350@gmail.com).');
+        } catch (error) {
+            console.error('Email sending error:', error);
+            alert('Failed to send report. Please ensure server email configuration is set.');
+        } finally {
+            sendPoliceBtn.innerHTML = originalText;
+            sendPoliceBtn.disabled = false;
+        }
+    });
 });

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { genkit } from 'genkit';
 import { googleAI } from '@genkit-ai/google-genai';
-import axios from 'axios'; 
+import axios from 'axios';
 import admin from 'firebase-admin';
 import fs from 'fs';
 import path from 'path';
@@ -31,11 +31,11 @@ try {
   if (!admin.apps || admin.apps.length === 0) {
     const credPath = process.env.GOOGLE_APPLICATION_CREDENTIALS || 'service_account.json';
     const absolutePath = path.resolve(process.cwd(), credPath);
-    
+
     let config: any = {
       databaseURL: 'https://gdg-hackathon-2026-493002-default-rtdb.asia-southeast1.firebasedatabase.app'
     };
-    
+
     if (fs.existsSync(absolutePath)) {
       const cert = JSON.parse(fs.readFileSync(absolutePath, 'utf8'));
       config.credential = admin.credential.cert(cert);
@@ -72,7 +72,7 @@ async function fetchFirebaseAlerts() {
     const snapshot = await rtdb.ref('consumer-alert-datastore').limitToLast(100).once('value');
     const data = snapshot.val();
     if (!data) return [];
-    
+
     return Object.values(data).map((item: any) => ({
       name: item.name,
       websites: item.websites || [],
@@ -125,7 +125,7 @@ export async function scamAnalystFlow(input: string): Promise<ScamAnalysis> {
   });
 
   const text = response.text;
-  
+
   try {
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
@@ -135,7 +135,7 @@ export async function scamAnalystFlow(input: string): Promise<ScamAnalysis> {
     throw new Error('Parsing failed');
   } catch (error) {
     return {
-      scamProbability: 95,
+      scamProbability: 50,
       detectedPatterns: ['Fallback Internal Analysis'],
       requiresForensics: true,
       bnmMatchFound: false,
@@ -143,4 +143,4 @@ export async function scamAnalystFlow(input: string): Promise<ScamAnalysis> {
       justification: 'Analysis performed via internal model logic due to response parsing error.',
     };
   }
-}
+}
