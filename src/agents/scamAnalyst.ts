@@ -109,7 +109,7 @@ export async function scamAnalystFlow(input: string): Promise<ScamAnalysis> {
     2. Check if any name, URL, or entity mentioned by the user exists in the GROUND TRUTH.
     3. If there is a match in BNM data, set bnmMatchFound to true.
     4. If there is a match in Firebase (INTERNAL_FIREBASE_REPORTS) data, set firebaseMatchFound to true.
-    5. If any match is found, set requiresForensics to true.
+    5. If the user input contains any URLs, links, or IP addresses, OR if the scamProbability is greater than 40, set requiresForensics to true.
     6. Identify any bank account numbers mentioned as receiving funds to the scammer.
     7. Return JSON:
     {

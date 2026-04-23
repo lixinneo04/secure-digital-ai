@@ -45,13 +45,17 @@ export async function secureDigitalShield(userInput: string, onProgress?: (step:
   });
   if (onProgress) onProgress('Incident Report Generated', report);
 
-  if (forensics.maliciousUrls && forensics.maliciousUrls.length > 0) {
+  if (analysis.scamProbability > 50) {
     if (onProgress) onProgress('Logging to database...');
     try {
+      const scamName = forensics.maliciousUrls && forensics.maliciousUrls.length > 0
+        ? `AI Detected Scam - ${forensics.maliciousUrls[0]}`
+        : `AI Detected Scam Incident`;
+
       await reportNewScam({
-        name: `AI Detected Scam - ${forensics.maliciousUrls[0]}`,
+        name: scamName,
         registration_number: 'N/A',
-        websites: forensics.maliciousUrls,
+        websites: forensics.maliciousUrls || [],
       });
     } catch (e) {
       console.error('⚠️ Database log failed:', e);

@@ -194,6 +194,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const result = await response.json();
             displayResults(result);
+            // Refresh stats to include any newly recorded cases
+            fetchStats();
         } catch (error) {
             console.error(error);
             alert('System error during analysis. Please try again.');
@@ -209,6 +211,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function displayResults(data) {
         const { analysis, forensics, report } = data;
+
+        // Reset buttons
+        const autofillBtn = document.getElementById('autofillBtn');
+        autofillBtn.innerHTML = '<i class="fas fa-edit"></i> Fill Personal Info';
+        autofillBtn.title = 'Autofill Personal Info';
+        typeof isInfoFilled !== 'undefined' && (isInfoFilled = false);
 
         // BNM Status Card
         if (analysis.bnmMatchFound) {
@@ -278,13 +286,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Personal Info Autofill & Email Output ---
     const autofillBtn = document.getElementById('autofillBtn');
-    const sendPoliceBtn = document.getElementById('sendPoliceBtn');
     const autofillModal = document.getElementById('autofillModal');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const saveInfoBtn = document.getElementById('saveInfoBtn');
 
-    autofillBtn.addEventListener('click', () => {
-        autofillModal.classList.remove('hidden');
+    let isInfoFilled = false;
+
+    autofillBtn.addEventListener('click', async () => {
+        if (!isInfoFilled) {
+            autofillModal.classList.remove('hidden');
+        } else {
+            if (!policeNarrative.innerText) {
+                alert('No report available to send.');
+                return;
+            }
+
+            // Use a visual cue for sending
+            const originalText = autofillBtn.innerHTML;
+            autofillBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            autofillBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/send-police-report', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        reportContent: policeNarrative.innerText,
+                        userName: document.getElementById('victimName').value.trim()
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to send email');
+                alert('Report successfully automatically forwarded to the authorities (rickytan5350@gmail.com).');
+            } catch (error) {
+                console.error('Email sending error:', error);
+                alert('Failed to send report. Please ensure server email configuration is set.');
+            } finally {
+                autofillBtn.innerHTML = originalText;
+                autofillBtn.disabled = false;
+            }
+        }
     });
 
     closeModalBtn.addEventListener('click', () => {
@@ -307,38 +348,12 @@ document.addEventListener('DOMContentLoaded', () => {
         policeNarrative.innerText = currentText + personalInfoSection;
 
         autofillModal.classList.add('hidden');
-        alert('Personal Information has been automatically appended to your report narrative!');
-    });
 
-    sendPoliceBtn.addEventListener('click', async () => {
-        if (!policeNarrative.innerText) {
-            alert('No report available to send.');
-            return;
-        }
+        isInfoFilled = true;
+        autofillBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Send to PDRM';
+        autofillBtn.title = 'Send to Police';
 
-        // Use a visual cue for sending
-        const originalText = sendPoliceBtn.innerHTML;
-        sendPoliceBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-        sendPoliceBtn.disabled = true;
-
-        try {
-            const response = await fetch('/api/send-police-report', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    reportContent: policeNarrative.innerText,
-                    userName: document.getElementById('victimName').value.trim()
-                })
-            });
-
-            if (!response.ok) throw new Error('Failed to send email');
-            alert('Report successfully automatically forwarded to the authorities (rickytan5350@gmail.com).');
-        } catch (error) {
-            console.error('Email sending error:', error);
-            alert('Failed to send report. Please ensure server email configuration is set.');
-        } finally {
-            sendPoliceBtn.innerHTML = originalText;
-            sendPoliceBtn.disabled = false;
-        }
+        // Automatically trigger the send action without requiring another user click
+        autofillBtn.click();
     });
 });
